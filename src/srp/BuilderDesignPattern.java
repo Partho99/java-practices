@@ -921,7 +921,46 @@ class CreateNotify {
     void setNotifying(Notifying notifying) {
         this.notifying = notifying;
     }
-    void getData(){
+
+    void getData() {
         setNotifier.processData(12);
+    }
+}
+
+
+class IntStreamExample {
+    public static void main(String[] args) {
+        List<AssignBrand> list = Arrays.asList(
+                new AssignBrand("Rally", "Racer", 1, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Rally", "Bolt", 2, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Rally2", "Bolt", 2, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Rally", "Ice", 3, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Rally3", "Ice", 3, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Sunmoon", "Racer", 4, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Sunmoon2", "Racer", 4, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Sunmoon", "Ice", 1, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Marise", "Bolt", 1, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Marise", "Ice", 1, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Rally", "Verve", 1, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Rally", "Verve2", 1, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Bidi", "Special Abul", 1, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Rexon", "Kings", 5, List.of(new ProductCategory(1, "cigarette"))),
+                new AssignBrand("Rexon2", "Kings", 5, List.of(new ProductCategory(1, "cigarette")))
+        );
+
+        batches(list, 3).forEach(System.out::println);
+
+
+    }
+
+    public static <T> Stream<List<T>> batches(List<T> source, int length) {
+        if (length <= 0)
+            throw new IllegalArgumentException("length = " + length);
+        int size = source.size();
+        if (size <= 0)
+            return Stream.empty();
+        int fullChunks = (size - 1) / length;
+        return IntStream.range(0, fullChunks + 1).mapToObj(
+                n -> source.subList(n * length, n == fullChunks ? size : (n + 1) * length));
     }
 }
